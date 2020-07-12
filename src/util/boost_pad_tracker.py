@@ -21,12 +21,11 @@ class BoostPadTracker:
     game has started, and then update_boost_status every frame so that it knows which pads are active.
     """
 
-    def __init__(self):
+    def __init__(self, field_info: FieldInfoPacket):
         self.boost_pads: List[BoostPad] = []
         self._full_boosts_only: List[BoostPad] = []
-
-    def initialize_boosts(self, game_info: FieldInfoPacket):
-        raw_boosts = [game_info.boost_pads[i] for i in range(game_info.num_boosts)]
+        
+        raw_boosts = [field_info.boost_pads[i] for i in range(field_info.num_boosts)]
         self.boost_pads: List[BoostPad] = [BoostPad(Vec3(rb.location), rb.is_full_boost, False, 0) for rb in raw_boosts]
         # Cache the list of full boosts since they're commonly requested.
         # They reference the same objects in the boost_pads list.

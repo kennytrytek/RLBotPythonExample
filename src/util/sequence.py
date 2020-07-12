@@ -22,6 +22,14 @@ class Step:
         raise NotImplementedError
 
 
+class SingleStep(Step):
+    def __init__(self, controls: SimpleControllerState):
+        self.controls = controls
+
+    def tick(self, packet: GameTickPacket) -> StepResult:
+        return StepResult(controls=self.controls, done=True)
+
+
 class ControlStep(Step):
     """
     This allows you to repeat the same controls every frame for some specified duration. It's useful for
